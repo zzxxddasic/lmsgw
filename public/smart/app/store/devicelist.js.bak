@@ -1,0 +1,40 @@
+Ext.require([
+    'Ext.data.Store'
+    ])
+
+Ext.define('neighbor',{
+    extend:'Ext.data.Model',
+    config:{
+        fields:[
+            {name:'num',type:'int'},
+            {name:'net',type:'string'},
+            {name:'snet',type:'string'},
+            {name:'ieee',type:'string'},
+            {name:'net',type:'string'},
+            {name:'lqi',type:'int'}
+        ]
+    }
+});
+
+/*
+var devList = Ext.create('Ext.data.Store',{
+    model:'neighbor',
+    data:[
+        {num:1,net:'123456789',snet:'aaaa',ieee:'aaaaaaaaa',net:'abcd',lqi:100},
+        {num:2,net:'123456789',snet:'aaaa',ieee:'aaaaaaaaa',net:'iiii',lqi:200}
+    ]
+});
+
+var devList = Ext.create('Ext.data.Store',{
+    model:'neighbor',
+    autoload:true,
+    autoDestory:true,
+    proxy:{
+        type:'ajax',
+        url:'devlist',
+        reader:{
+            type:'json'
+        }
+    }
+});
+*/

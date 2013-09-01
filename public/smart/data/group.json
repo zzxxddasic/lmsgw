@@ -1,0 +1,11 @@
+[
+    {addr:1,name:'客厅'},
+    {addr:2,name:'主卧'},
+    {addr:3,name:'客房'},
+    {addr:4,name:'背景'},
+    {addr:5,name:'墙灯'},
+    {addr:6,name:'阳台'},
+    {addr:7,name:'贮存室'},
+    {addr:8,name:'厨房'},
+    {addr:9,name:'餐厅'}
+]

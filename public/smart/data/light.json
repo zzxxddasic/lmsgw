@@ -1,0 +1,3 @@
+[
+    { ieee:"ffffffffffffffff", net:"1111", endpoint:'10', lightname:'json', dimmable:'false', minlevel:'20', groupname:'json group' }
+]
