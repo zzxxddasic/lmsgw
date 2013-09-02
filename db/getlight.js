@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+var cp = require('child_process');
+var exec = require('child_process').exec;
 
 exports.getDeviceInfo = function(req,res) {
     var connection = mysql.createConnection({
@@ -8,7 +10,59 @@ exports.getDeviceInfo = function(req,res) {
     });
 
     connection.query('use gatewaydb');
+    connection.query('update neighbor set lqi=0', 
+        function(err,results,fields) {
+            if (err) {
+                throw err;
+            }
+            var scan = cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway', ['-s', '-d/dev/ttyUSB0', '-a0000000000000000']);
+            scan.on('exit',
+                function(code) {
+                    console.log('===============scan======================',code);
+                    //console.log('',scan.stdout._readableState.buffer);
+                    getDevTab(req,res,connection,cp.spawn);
+                }
+            );
+            scan.stdout.on('data',function(data) {console.log('scan stdout:  ' + data);});
+    });
+}            
 
+getEp = function(cnt,len,net,exec) {
+    if (cnt==len) {
+        return;
+    }
+    else {
+        //var cmd = '/home/zxd/workspace/zbGateway/Debug/zbGateway -e -d/dev/ttyUSB0 ' + net[cnt];
+        //console.log(cmd);
+        //exec(cmd,{},getEp(cnt+1,len,net,exec));
+        var sep = exec('/home/zxd/workspace/zbGateway/Debug/zbGateway', ['-e', '-d/dev/ttyUSB0', net[cnt]]);
+        sep.on('exit',
+            function(code) {
+            getEp(cnt+1,len,net,exec)
+            });
+        //sep.stdout.on('data',function(data) {console.log('stdout:  ' + data);});
+    }
+}
+
+getDevTab = function(req,res,connection,exec) {
+    var cnt = 0;
+    var na = new Array();
+    connection.query('select * from neighbor where net != \'0000\' and lqi != 0',
+        function getep(err, results,fields) {
+            console.log('-------------------getep-------------------');
+            results.forEach(
+                function(record) {
+                    na[cnt] = '-n' + record['net'];
+                    console.log(cnt,na);
+                    cnt++;
+                    //cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway', ['-e', '-d/dev/ttyUSB0', '-n3942']);
+                }
+            );
+            cnt = 0;
+            getEp(cnt,na.length,na,exec);
+        }
+    );
+    //console.log('scaned');
     connection.query('select * from neighbor where net != \'0000\'',
         function selectCb(err, results, fields) {
             if (err) {
