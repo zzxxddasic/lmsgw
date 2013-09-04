@@ -26,6 +26,7 @@ Ext.application({
         'Ext.MessageBox',
         'Ext.field.Select',
         'Ext.form.FieldSet',
+        'Ext.field.Toggle',
         'Ext.field.Slider'
     ],
 
@@ -37,6 +38,7 @@ Ext.application({
         'EpListContainer',
         'Light'
     ],
+
     stores:[
         'Device',
         'Endpoint',

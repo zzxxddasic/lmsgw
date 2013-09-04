@@ -33,6 +33,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/deviceinfo', db.getDeviceInfo);
 //app.get('/lightinfo/:net', db.getLightInfo);
+app.get('/epidentify/:net/:ep',db.identifyLight);
 app.get('/groupinfo', db.getGroupInfo);
 app.get('/epinfo/:net', db.getEpInfo);
 app.get('/epinfo/:net/:ep', db.getLightInfo);

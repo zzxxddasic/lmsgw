@@ -6,7 +6,9 @@ Ext.define('sslsmart.view.Light',{
         var identifyButton = {
             xtype : 'button',
             id : 'identify',
-            text : '标识'
+            text : '标识',
+            handler:this.onIdentifyButtonTap,
+            scope: this
         };
         var bottomToolbar = {
             xtype: 'toolbar',
@@ -40,6 +42,11 @@ Ext.define('sslsmart.view.Light',{
                 {xtype: 'spacer'},
                 saveButton
             ]
+        };
+        var lightToggle = {
+            xtype: 'togglefield',
+            name: 'onoff',
+            label: '开关',
         };
         var lightName = {
             xtype : 'textfield',
@@ -75,7 +82,6 @@ Ext.define('sslsmart.view.Light',{
 
         var minLevel = {
             xtype : 'sliderfield',
-            //id : 'minlevel',
             name : 'minlevel',
             label : '最低亮度',
             minValue : 0,
@@ -103,7 +109,7 @@ Ext.define('sslsmart.view.Light',{
                 {
                     xtype:'fieldset',
                     items: [
-                        lightName,groupName,dimmable,minLevel
+                        lightName,lightToggle,groupName,dimmable,minLevel
                     ]
                 },
                 bottomToolbar]);
@@ -118,5 +124,8 @@ Ext.define('sslsmart.view.Light',{
     },
     onSaveButtonTap:function() {
         this.fireEvent('onSaveLightCommand',this);
+    },
+    onIdentifyButtonTap:function() {
+        this.fireEvent('onIdentifyCommand',this);
     }
 });

@@ -26,6 +26,18 @@ exports.getDeviceInfo = function(req,res) {
     });
 }            
 
+exports.identifyLight = function(req,res) {
+    console.log(req.params.net,req.params.ep);
+    var identifyLig = cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway',['-I10','-d/dev/ttyUSB0','-affffffffffffffff', 
+        '-n' + req.params.net,'-p01' + req.params.ep]);
+    identifyLig.on('exit',
+        function(code) {
+            console.log('identify finish',code);
+            res.end();
+        }
+    );
+}
+
 getEp = function(cnt,len,net,exec) {
     if (cnt==len) {
         return;
