@@ -19,11 +19,10 @@ exports.getDeviceInfo = function(req,res) {
             scan.on('exit',
                 function(code) {
                     console.log('===============scan======================',code);
-                    //console.log('',scan.stdout._readableState.buffer);
                     getDevTab(req,res,connection,cp.spawn);
                 }
             );
-            scan.stdout.on('data',function(data) {console.log('scan stdout:  ' + data);});
+            scan.stdout.on('data',function(data) {console.log('scan stdout:  ',data.length);});
     });
 }            
 
@@ -82,9 +81,11 @@ exports.getLightInfo = function(req,res) {
         password : '',
     });
 
+    //console.log(req.params.net);
+    //console.log(req.params.ep);
     connection.query('use gatewaydb');
 
-    connection.query('select * from light where net=\'4eeb\'',
+    connection.query('select * from endpoint where net=? and ep=?',[req.params.net,req.params.ep],
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;
@@ -121,6 +122,28 @@ exports.getGroupInfo = function(req,res) {
         });
 }
 
+exports.getEpInfo = function(req,res) {
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : '',
+    });
+    var net = req.params.net;
+    connection.query('use gatewaydb');
+
+    connection.query('select * from endpoint where net=?',[net],
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.contentType('json');
+            res.send(results);
+            res.end();
+            //console.log(results);
+            //console.log(fields);
+            connection.end();
+        });
+}
 exports.updateLightInfo = function(req,res) {
     var connection = mysql.createConnection({
         host : 'localhost',
@@ -128,11 +151,13 @@ exports.updateLightInfo = function(req,res) {
         password : '',
     });
     
+    var net = req.params.net;
+    var ep = req.params.ep;
     var s = req.body;
-    console.log(s.dimmable);
+    console.log(s.minlevel[0]);
     connection.query('use gatewaydb');
-    connection.query('update light set lightname=?,dimmable=?,minlevel=? where net=?',
-        [s.lightname,s.dimmable,s.minlevel,s.net],
+    connection.query('update endpoint set name=?,dimmable=?,minlevel=? where net=? and ep=?',
+        [s.name,s.dimmable,s.minlevel[0],net,ep],
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;

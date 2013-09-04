@@ -4,16 +4,35 @@ Ext.define('sslsmart.controller.Light',{
         refs:{
           lightProperty: 'lightproperty',
           epListContainer: 'eplistcontainer',
+          //epList: 'eplist',
           groupName: '#groupname'
         },
         control: {
-            lightProperty: {onBackToEpCommand: 'backToEpList'},
+            lightProperty: {
+                            onBackToEpCommand: 'backToEpList',
+                            onSaveLightCommand: 'saveLight'
+                        },
             groupName : {initialize: 'initGroupName'}
+            //epList: {painted: 'getEpInfo'}
+
         }
     },
     backToEpList:function() {
        var epListContainer = this.getEpListContainer();
        Ext.Viewport.animateActiveItem(epListContainer,{type:'slide', direction: 'right'});
+    },
+
+    saveLight: function() {
+        var ligstore = Ext.getStore('Light');
+        this.getLightProperty().updateRecord(ligstore.getAt(0));
+        console.log(ligstore);
+        ligstore.sync();
+        Ext.Msg.alert('Save Light OK');
+    },
+
+    getEpInfo: function() {
+        //Ext.getStore('Endpoint').removeAll();
+        Ext.getStore('Endpoint').load();
     },
 
     initGroupName:function() {

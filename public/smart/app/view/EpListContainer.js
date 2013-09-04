@@ -31,10 +31,14 @@ Ext.define("sslsmart.view.EpListContainer", {
 
         var epList = {
             xtype:'eplist',
-            store:Ext.getStore('Endpoint'),
+            //store:Ext.getStore('Endpoint'),
             listeners: {
                 disclose:{
                     fn:this.onEpListDisclose,
+                    scope:this
+                },
+                painted:{
+                    fn:this.onEpListPainted,
                     scope:this
                 }
             }
@@ -50,11 +54,14 @@ Ext.define("sslsmart.view.EpListContainer", {
         this.fireEvent('backEpCommand',this);
         //Ext.Msg.alert('back to device list');
     },
-    onEpListDisclose: function() {
+    onEpListDisclose: function(list,record) {
         //Ext.Msg.alert('list disclosed');
-        this.fireEvent('detailLightCommand',this);
+        this.fireEvent('detailLightCommand',this,record.data.net,record.data.ep);
     },
-
+    onEpListPainted: function() {
+        //Ext.Msg.alert('Ep painted');
+        this.fireEvent('detailEpCommand',this);
+    },
     config: {
         layout: {
             type: 'fit'

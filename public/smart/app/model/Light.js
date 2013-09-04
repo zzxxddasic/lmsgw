@@ -1,18 +1,17 @@
 Ext.define('sslsmart.model.Light',{
     extend:'Ext.data.Model',
     config:{
+        idProperty: 'num',
         fields:[
-            'ieee','net','ep','lightname','dimmable','minlevel','groupname'
+            'num','net','ep','onoff','level','epdesc','name','groupname','minlevel','dimmable'
         ],
-        proxy:{
-            type:'ajax',
-            //url:'data/light.json',
-            url:'/lightinfo/1234',
-            reader:{
-                type:'json'
+        proxy: {
+            type: 'ajax',
+            url: '/epinfo',
+            reader: {
+                type: 'json'
             }
         }
-
     }
 });
 

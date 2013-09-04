@@ -32,9 +32,11 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/deviceinfo', db.getDeviceInfo);
-app.get('/lightinfo/:net', db.getLightInfo);
+//app.get('/lightinfo/:net', db.getLightInfo);
 app.get('/groupinfo', db.getGroupInfo);
-app.post('/lightinfo/:net', db.updateLightInfo);
+app.get('/epinfo/:net', db.getEpInfo);
+app.get('/epinfo/:net/:ep', db.getLightInfo);
+app.post('/epinfo/:net/:ep', db.updateLightInfo);
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){

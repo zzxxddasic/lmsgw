@@ -39,7 +39,8 @@ Ext.application({
     ],
     stores:[
         'Device',
-        'Endpoint'
+        'Endpoint',
+        'Light'
     ],
     models: [
         'Group',

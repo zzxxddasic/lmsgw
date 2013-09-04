@@ -3,8 +3,15 @@ Ext.define('sslsmart.model.Endpoint',{
     config:{
         idProperty: 'num',
         fields:[
-            'num','net','ep','onof','level','epdesc','name'
-        ]
+            'num','net','ep','onoff','level','epdesc','name','groupname','minlevel','dimmable'
+        ],
+        proxy: {
+            type: 'ajax',
+            url: '/epinfo',
+            reader: {
+                type: 'json'
+            }
+        }
     }
 });
 

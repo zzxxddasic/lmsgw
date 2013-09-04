@@ -37,9 +37,11 @@ Ext.define("sslsmart.view.DevListContainer", {
         //Ext.Msg.alert('refresh dev');
         this.fireEvent('refreshDevCommand',this);
     },
-    onDevListDisclose: function() {
+    onDevListDisclose: function(list,record) {
         //Ext.Msg.alert('list disclosed');
-        this.fireEvent('detailDevCommand',this);
+        //console.log(record.data.net);
+
+        this.fireEvent('detailDevCommand',this,record.data.net);
     },
 
     config: {
