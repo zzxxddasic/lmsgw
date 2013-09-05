@@ -7,7 +7,7 @@ Ext.define('sslsmart.view.EpList', {
         loadText: '正在读取端点...',
         itemTpl:'<pre> <div>{name}</div> <div>{net}</div> </pre>',
         //baseCls:'my-dataview'
-        onItemDisclosure:true
+        //onItemDisclosure:true
     }
 
 });

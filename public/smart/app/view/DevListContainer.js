@@ -11,8 +11,8 @@ Ext.define("sslsmart.view.DevListContainer", {
         };
             
         var topToolbar = {
-            xtype: "toolbar",
-            docked: "top",
+            xtype: 'toolbar',
+            docked: 'top',
             title: '已发现的设备',
             items: [
                 { xtype: 'spacer'},
@@ -20,16 +20,28 @@ Ext.define("sslsmart.view.DevListContainer", {
             ]
         };
 
-        var devList = {
-            xtype:'devlist',
-            store:Ext.getStore('Device'),
-            listeners: {
-                disclose:{
-                    fn:this.onDevListDisclose,
-                    scope:this
+        //var devList = Ext.create(
+        var devList = 
+            //sslsmart.view.DevList,
+            {
+                xtype:'devlist',
+                store:'Device',
+                listeners: {
+                    //disclose:{
+                    //    fn:this.onDevListDisclose,
+                    //    scope:this
+                    //},
+                    itemswipe:{
+                        fn:this.onDevListSwipe,
+                        scope:this
+                
+                    }
                 }
-            }
-        };
+            };
+       // );
+        //devList.on('itemtaphold',function() {Ext.Msg.alert('tap')});
+        //Ext.getStore('Device').load();
+        //console.log(devList);
         this.add([topToolbar,devList]);
     },
 
@@ -37,13 +49,21 @@ Ext.define("sslsmart.view.DevListContainer", {
         //Ext.Msg.alert('refresh dev');
         this.fireEvent('refreshDevCommand',this);
     },
+
+    onDevListSwipe: function(scope,index,target,record,e) {
+        //Ext.Msg.alert('Dev List swip');
+        if (e.deltaX > 0) {
+            this.fireEvent('detailDevCommand',this,record.data.net);
+        }
+    },
+/*
     onDevListDisclose: function(list,record) {
         //Ext.Msg.alert('list disclosed');
         //console.log(record.data.net);
 
         this.fireEvent('detailDevCommand',this,record.data.net);
     },
-
+*/
     config: {
         layout: {
             type: 'fit'

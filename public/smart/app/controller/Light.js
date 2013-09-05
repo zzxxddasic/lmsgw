@@ -20,7 +20,7 @@ Ext.define('sslsmart.controller.Light',{
     },
     backToEpList:function() {
        var epListContainer = this.getEpListContainer();
-       Ext.Viewport.animateActiveItem(epListContainer,{type:'slide', direction: 'right'});
+       Ext.Viewport.animateActiveItem(epListContainer,{type:'slide', direction: 'left'});
     },
 
     identifyLight: function() {

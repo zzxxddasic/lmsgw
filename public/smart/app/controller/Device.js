@@ -51,7 +51,7 @@ Ext.define('sslsmart.controller.Device', {
         epproxy.setUrl('/epinfo/' + net);
         epstore.setProxy(epproxy);
         var epListContainer = this.getEpListContainer();
-        Ext.Viewport.animateActiveItem(epListContainer, {type: 'slide', direction: 'left'});
+        Ext.Viewport.animateActiveItem(epListContainer, {type: 'slide', direction: 'right'});
     },
     onDetailLightCommand: function(scope,net,ep) {
         //Ext.Msg.alert('onDetailLightCommand');
@@ -64,13 +64,13 @@ Ext.define('sslsmart.controller.Device', {
                 lightProperty.setRecord(records[0]);
                 //console.log(records[0].data);
             });
-        Ext.Viewport.animateActiveItem(lightProperty, {type: 'slide', direction: 'left'});
+        Ext.Viewport.animateActiveItem(lightProperty, {type: 'slide', direction: 'right'});
     },
 
     onBackEpCommand: function() {
         //Ext.Msg.alert('onBackEpCommand');
         var devListContainer = this.getDevListContainer();
-        Ext.Viewport.animateActiveItem(devListContainer, {type: 'slide', direction: 'right'});
+        Ext.Viewport.animateActiveItem(devListContainer, {type: 'slide', direction: 'left'});
     },
     launch:function() {
         this.callParent(arguments);
