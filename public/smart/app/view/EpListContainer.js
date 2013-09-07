@@ -37,6 +37,12 @@ Ext.define("sslsmart.view.EpListContainer", {
                 //    fn:this.onEpListDisclose,
                 //    scope:this
                 //},
+                itemtap: {
+                    fn:function(s,index,target,record) {
+                        this.fireEvent('toggleLightCommand',record.data.net,record.data.ep);
+                    },
+                    scope:this
+                },
                 itemswipe: {
                     fn:this.onEpListSwipe,
                     scope:this
@@ -59,11 +65,6 @@ Ext.define("sslsmart.view.EpListContainer", {
         //Ext.Msg.alert('back to device list');
     },
     onEpListSwipe: function(s,index,target,record,e) {
-        //Ext.Msg.alert('' + e.deltaX);
-        //console.log(index);
-        //console.log(target);
-        //console.log(record);
-        //console.log(e);
         if (e.deltaX > 0) {
             this.fireEvent('detailLightCommand',this,record.data.net,record.data.ep);
         }

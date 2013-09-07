@@ -20,6 +20,7 @@ Ext.define('sslsmart.controller.Device', {
                 refreshEpCommand: 'onrefreshEpCommand',
                 backEpCommand: 'onBackEpCommand',
                 detailLightCommand: 'onDetailLightCommand',
+                toggleLightCommand: 'toggleLight',
                 detailEpCommand:'getEpInfo'
             }
         }
@@ -29,6 +30,17 @@ Ext.define('sslsmart.controller.Device', {
         //console.log('get device info');
         Ext.getStore('Device').removeAll();
         Ext.getStore('Device').load();
+    },
+
+    toggleLight: function(net,ep) {
+        //Ext.Msg.alert('toggle light');
+        var togLig = Ext.Ajax.request({
+            url: '/toggle/' + net + '/' + ep,
+            method: 'GET',
+            callback: function(response) {
+                console.log(response.responseText);
+            }
+        });
     },
 
     getEpInfo: function() {

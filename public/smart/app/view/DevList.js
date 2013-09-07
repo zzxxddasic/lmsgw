@@ -5,7 +5,8 @@ Ext.define('sslsmart.view.DevList', {
         disableSelection:true,
         //scrollable:'none',
         //store: 'Device',
-        loadText: '正在读取设备...',
+        loadingText: '正在读取设备...',
+        emptyText: '没有设备',
         itemTpl: [
                 '<tpl if="lqi==0"><span>{name}<img src=resources/images/no.png width=20></img></span></tpl>',
                 '<tpl if="lqi &gt; 0 && lqi &lt; 64"><span>{name}<img src=resources/images/poor.png width=20></img></span></tpl>',

@@ -37,6 +37,7 @@ app.get('/epidentify/:net/:ep',db.identifyLight);
 app.get('/groupinfo', db.getGroupInfo);
 app.get('/epinfo/:net', db.getEpInfo);
 app.get('/epinfo/:net/:ep', db.getLightInfo);
+app.get('/toggle/:net/:ep', db.toggleLight);
 app.post('/epinfo/:net/:ep', db.updateLightInfo);
 
 var server = http.createServer(app);

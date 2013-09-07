@@ -46,7 +46,7 @@ Ext.define('sslsmart.view.Light',{
         var lightToggle = {
             xtype: 'togglefield',
             name: 'onoff',
-            label: '开关',
+            label: '开关'
         };
         var lightName = {
             xtype : 'textfield',
