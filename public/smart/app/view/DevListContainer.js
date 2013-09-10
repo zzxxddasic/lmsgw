@@ -10,11 +10,20 @@ Ext.define("sslsmart.view.DevListContainer", {
             scope: this
         };
             
+        var backOperButton ={
+            xtype: 'button',
+            text: '操作',
+            ui:'back',
+            handler:this.onBackOperButtonTap,
+            scope: this
+        };
+
         var topToolbar = {
             xtype: 'toolbar',
             docked: 'top',
             title: '已发现的设备',
             items: [
+                backOperButton,
                 { xtype: 'spacer'},
                 refreshDevButton
             ]
@@ -48,6 +57,10 @@ Ext.define("sslsmart.view.DevListContainer", {
     onRefreshDevButtonTap: function() {
         //Ext.Msg.alert('refresh dev');
         this.fireEvent('refreshDevCommand',this);
+    },
+
+    onBackOperButtonTap: function() {
+        this.fireEvent('backOperCommand',this);
     },
 
     onDevListSwipe: function(scope,index,target,record,e) {

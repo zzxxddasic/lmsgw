@@ -36,7 +36,11 @@ Ext.application({
         'DevListContainer',
         'EpList',
         'EpListContainer',
-        'Light'
+        'Light',
+        'Oper',
+        'LightList',
+        'GroupList',
+        'GroupConfig'
     ],
 
     stores:[
@@ -52,7 +56,8 @@ Ext.application({
     ],
     controllers:[
         'Device',
-        'Light'
+        'Light',
+        'Oper'
     ],
 
     icon: {
@@ -95,8 +100,14 @@ Ext.application({
         var epListContainer = {
             xtype: 'eplistcontainer'
         };
+        var userOper = {
+            xtype: 'useroper'
+        };
+        var groupConfig = {
+            xtype: 'groupconfig'
+        };
         //Ext.Viewport.add([devListContainer]);
-        Ext.Viewport.add([devListContainer,epListContainer,lightProperty]);
+        Ext.Viewport.add([userOper,groupConfig,devListContainer,epListContainer,lightProperty]);
     },
 
     onUpdated: function() {
