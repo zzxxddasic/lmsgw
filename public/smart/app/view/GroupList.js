@@ -21,7 +21,8 @@ Ext.define('sslsmart.view.GroupList', {
         listeners: {
             painted:function() {
                 this.getStore().load();
-            }
+            },
+	    select:function(s,record,eOpts) {console.log(record)}
         }
         //baseCls:'my-dataview'
         //onItemDisclosure:true

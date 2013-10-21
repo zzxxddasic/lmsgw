@@ -38,6 +38,7 @@ app.get('/groupinfo', db.getGroupInfo);
 app.get('/epinfo/:net', db.getEpInfo);
 app.get('/epinfo/:net/:ep', db.getLightInfo);
 app.get('/toggle/:net/:ep', db.toggleLight);
+app.get('/lvlabs/:net/:ep/:lvl', db.levelLight);
 app.get('/oper', db.getOperList);
 app.post('/epinfo/:net/:ep', db.updateLightInfo);
 

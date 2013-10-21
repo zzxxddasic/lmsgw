@@ -3,7 +3,7 @@ Ext.define('sslsmart.model.Light',{
     config:{
         idProperty: 'num',
         fields:[
-            'num','net','ep','onoff','level','epdesc','name','groupname','minlevel','dimmable'
+            'num','net','ep','onoff','level','epdesc','name','groupname','minlevel','dimmable','inoper'
         ],
         proxy: {
             type: 'ajax',

@@ -2,7 +2,7 @@
 <html manifest="" lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>sslsmart</title>
+    <title>SideNav</title>
     <style type="text/css">
          /**
          * Example of an initial loading indicator.
@@ -48,31 +48,9 @@
                 opacity: 0.8
             }
         }
-        .my-dataview-item {
-            background: #ddd;
-            padding: 1em;
-            border-bottom: 1px solid #ccc;
-        }
-        .my-dataview-item img {
-            float: left;
-            margin-right: 1em;
-        }
-        .my-dataview-item h2 {
-            font-weight: bold;
-        }
     </style>
     <!-- The line below must be kept intact for Sencha Command to build your application -->
     <script id="microloader" type="text/javascript" src="touch/microloader/development.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <!--
-    <script> window.onload = function() {
-            var iosocket = io.connect();
-            iosocket.on('connect',function() {console.log('socket connected');});
-            iosocket.on('message',function() {console.log('socket message');});
-        };
-
-    </script>
-    -->
 </head>
 <body>
     <div id="appLoadingIndicator">

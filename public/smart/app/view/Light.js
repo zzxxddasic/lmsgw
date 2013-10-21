@@ -45,8 +45,9 @@ Ext.define('sslsmart.view.Light',{
         };
         var lightToggle = {
             xtype: 'togglefield',
+            readOnly: true,
             name: 'onoff',
-            label: '开关'
+            label: '开关状态'
         };
         var lightName = {
             xtype : 'textfield',
@@ -71,6 +72,16 @@ Ext.define('sslsmart.view.Light',{
             displayField:'name'
             //store: grpstore
         };
+
+        var athome = {
+            xtype : 'checkboxfield',
+            id : 'inoper',
+            name : 'inoper',
+            label : '显示图标',
+            value : true,
+            checked : true
+        };
+
         var dimmable = {
             xtype : 'checkboxfield',
             id : 'dimmable',
@@ -109,7 +120,7 @@ Ext.define('sslsmart.view.Light',{
                 {
                     xtype:'fieldset',
                     items: [
-                        lightName,lightToggle,groupName,dimmable,minLevel
+                        lightName,lightToggle,groupName,athome,minLevel
                     ]
                 },
                 bottomToolbar]);

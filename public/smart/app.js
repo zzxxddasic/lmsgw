@@ -31,16 +31,18 @@ Ext.application({
     ],
 
     views: [
-        'Main',
-        'DevList',
-        'DevListContainer',
-        'EpList',
-        'EpListContainer',
-        'Light',
-        'Oper',
+    	'SideNav',
+        //'Main',
+        //'DevList',
+        //'DevListContainer',
+        //'EpList',
+        //'EpListContainer',
+        //'Light',
+        //'Oper',
         'LightList',
         'GroupList',
-        'GroupConfig'
+        //'GroupConfig',
+        //'Level'
     ],
 
     stores:[
@@ -55,6 +57,7 @@ Ext.application({
         'Endpoint'
     ],
     controllers:[
+	'SideNav',
         'Device',
         'Light',
         'Oper'
@@ -88,6 +91,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
+        /*
         var lightProperty = {
                 xtype : 'lightproperty'
             };
@@ -106,8 +110,13 @@ Ext.application({
         var groupConfig = {
             xtype: 'groupconfig'
         };
-        //Ext.Viewport.add([devListContainer]);
-        Ext.Viewport.add([userOper,groupConfig,devListContainer,epListContainer,lightProperty]);
+	*/
+        var sideNav = {
+            xtype: 'sidenav'
+        };
+        //Ext.Viewport.add([groupConfig]);
+        //Ext.Viewport.add([sideNav,userOper,devListContainer,epListContainer,lightProperty]);
+        Ext.Viewport.add([sideNav]);
     },
 
     onUpdated: function() {

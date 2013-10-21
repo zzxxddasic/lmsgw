@@ -6,7 +6,7 @@ exports.getDeviceInfo = function(req,res) {
     var connection = mysql.createConnection({
         host : 'localhost',
         user : 'root',
-        password : '',
+        password : ''
     });
 
     connection.query('use gatewaydb');
@@ -15,7 +15,8 @@ exports.getDeviceInfo = function(req,res) {
             if (err) {
                 throw err;
             }
-            var scan = cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway', ['-s', '-d/dev/ttyUSB0', '-a0000000000000000']);
+            connection.end();
+            var scan = cp.spawn('./zbGateway', ['-s', '-d/dev/ttyUSB0', '-a0000000000000000']);
             scan.on('exit',
                 function(code) {
                     console.log('===============scan======================',code);
@@ -27,9 +28,39 @@ exports.getDeviceInfo = function(req,res) {
 }            
 
 exports.toggleLight = function(req, res) {
-    var toggleLig = cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway',['-S2','-d/dev/ttyUSB0','-affffffffffffffff',
+    var lightStatus={onoff:0};
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : ''
+    });
+
+    connection.query('use gatewaydb');
+    connection.query('select onoff from endpoint where net=? and ep=?',[req.params.net,req.params.ep],
+        function(err,results,fields) {
+            //console.log(results);
+            lightStatus.onoff = results[0].onoff;
+        });
+    var toggleLig = cp.spawn('./zbGateway',['-S2','-d/dev/ttyUSB0','-affffffffffffffff',
         '-n' + req.params.net,'-p01' + req.params.ep]);
     toggleLig.on('exit',
+        function(code) {
+            if (lightStatus.onoff) {
+                res.end('0');
+            }
+            else {
+                res.end('1');
+            }
+            //console.log(lightStatus.onoff);
+        }
+    );
+}
+
+exports.levelLight = function(req, res) {
+    console.log(req.params.net,req.params.ep,req.params.lvl);
+    var lvlLig = cp.spawn('./zbGateway',['-L' + req.params.lvl,'-d/dev/ttyUSB0','-affffffffffffffff',
+        '-n' + req.params.net,'-p01' + req.params.ep]);
+    lvlLig.on('exit',
         function(code) {
             res.end();
         }
@@ -38,7 +69,7 @@ exports.toggleLight = function(req, res) {
 
 exports.identifyLight = function(req,res) {
     console.log(req.params.net,req.params.ep);
-    var identifyLig = cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway',['-I10','-d/dev/ttyUSB0','-affffffffffffffff', 
+    var identifyLig = cp.spawn('./zbGateway',['-I10','-d/dev/ttyUSB0','-affffffffffffffff', 
         '-n' + req.params.net,'-p01' + req.params.ep]);
     identifyLig.on('exit',
         function(code) {
@@ -53,10 +84,10 @@ getEp = function(cnt,len,net,exec) {
         return;
     }
     else {
-        //var cmd = '/home/zxd/workspace/zbGateway/Debug/zbGateway -e -d/dev/ttyUSB0 ' + net[cnt];
+        //var cmd = '/home/zxd./zbGateway -e -d/dev/ttyUSB0 ' + net[cnt];
         //console.log(cmd);
         //exec(cmd,{},getEp(cnt+1,len,net,exec));
-        var sep = exec('/home/zxd/workspace/zbGateway/Debug/zbGateway', ['-e', '-d/dev/ttyUSB0', net[cnt]]);
+        var sep = exec('./zbGateway', ['-e', '-d/dev/ttyUSB0', net[cnt]]);
         sep.on('exit',
             function(code) {
             getEp(cnt+1,len,net,exec)
@@ -76,7 +107,7 @@ getDevTab = function(req,res,connection,exec) {
                     na[cnt] = '-n' + record['net'];
                     console.log(cnt,na);
                     cnt++;
-                    //cp.spawn('/home/zxd/workspace/zbGateway/Debug/zbGateway', ['-e', '-d/dev/ttyUSB0', '-n3942']);
+                    //cp.spawn('/home/zxd./zbGateway', ['-e', '-d/dev/ttyUSB0', '-n3942']);
                 }
             );
             cnt = 0;
@@ -189,6 +220,7 @@ exports.getEpInfo = function(req,res) {
             connection.end();
         });
 }
+
 exports.updateLightInfo = function(req,res) {
     var connection = mysql.createConnection({
         host : 'localhost',
@@ -201,8 +233,8 @@ exports.updateLightInfo = function(req,res) {
     var s = req.body;
     console.log(s.minlevel[0]);
     connection.query('use gatewaydb');
-    connection.query('update endpoint set name=?,dimmable=?,minlevel=? where net=? and ep=?',
-        [s.name,s.dimmable,s.minlevel[0],net,ep],
+    connection.query('update endpoint set name=?,dimmable=?,minlevel=?,inoper=? where net=? and ep=?',
+        [s.name,s.dimmable,s.minlevel[0],s.inoper,net,ep],
         function selectCb(err, results, fields) {
             if (err) {
                 throw err;

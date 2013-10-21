@@ -2,7 +2,7 @@ Ext.define('sslsmart.controller.Oper',{
         extend:'Ext.app.Controller',
         config:{
             refs:{
-                oper: 'useroper',
+                oper: 'lightlist',  //useroper
                 devListContainer: 'devlistcontainer',
                 groupConfig: 'groupconfig'
             },
@@ -10,7 +10,7 @@ Ext.define('sslsmart.controller.Oper',{
                 oper: {
                     configSystem: 'showDevListContainer',
                     userOper: 'operlight',
-                    groupConfig: 'toGroupConfig',
+                    groupConfig: 'toGroupConfig'
                 },
                 devListContainer: {
                     backOperCommand: 'showOper'
@@ -18,14 +18,27 @@ Ext.define('sslsmart.controller.Oper',{
                 groupConfig: {
                     groupToOper: 'showOper'
                 }
-            },
+            }
         },
 
 
-        operlight: function(scope,net,ep) {
+        operlight: function(scope,record,icon) {
+            //console.log(record);
             var togLig = Ext.Ajax.request({
-                url: '/toggle/' + net + '/' + ep,
+                url: '/toggle/' + record.data.net + '/' + record.data.ep,
                 method: 'GET',
+                success: function(response,opts) {
+                    //console.log(response);
+                    if (response.responseText=='1') {
+                        record.data.onoff = 1;
+		    		    //icon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
+                    }
+                    else {
+                        record.data.onoff = 0;
+		    		    //icon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
+
+                    }
+                }
             });
             
         },
