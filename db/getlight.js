@@ -67,6 +67,49 @@ exports.levelLight = function(req, res) {
     );
 }
 
+exports.saveLevel = function(req, res) {
+    //console.log(req.params.net,req.params.ep,req.params.lvl);
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : '',
+    });
+    
+    var net = req.params.net;
+    var ep = req.params.ep;
+    var lvl = req.params.lvl;
+    connection.query('use gatewaydb');
+    connection.query('update endpoint set level=? where net=? and ep=?',
+        [lvl,net,ep],
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.end();
+            connection.end();
+        });
+}
+
+exports.loadLevel = function(req, res) {
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : '',
+    });
+    
+    var net = req.params.net;
+    var ep = req.params.ep;
+    var lvl = req.params.lvl;
+    connection.query('use gatewaydb');
+    connection.query('select level from endpoint where net=? and ep=?',[net,ep],
+    function selectCb(err, results, fields) {
+        console.log('load lighting level');
+        res.send(results);
+        res.end();
+        connection.end();
+    })
+}
+
 exports.identifyLight = function(req,res) {
     console.log(req.params.net,req.params.ep);
     var identifyLig = cp.spawn('./zbGateway',['-I10','-d/dev/ttyUSB0','-affffffffffffffff', 

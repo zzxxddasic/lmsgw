@@ -39,6 +39,8 @@ app.get('/epinfo/:net', db.getEpInfo);
 app.get('/epinfo/:net/:ep', db.getLightInfo);
 app.get('/toggle/:net/:ep', db.toggleLight);
 app.get('/lvlabs/:net/:ep/:lvl', db.levelLight);
+app.get('/savelvl/:net/:ep/:lvl', db.saveLevel);
+app.get('/loadlvl/:net/:ep', db.loadLevel);
 app.get('/oper', db.getOperList);
 app.post('/epinfo/:net/:ep', db.updateLightInfo);
 
