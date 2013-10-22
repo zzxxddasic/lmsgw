@@ -22,7 +22,7 @@ Ext.define('sslsmart.view.GroupList', {
             painted:function() {
                 this.getStore().load();
             },
-	    select:function(s,record,eOpts) {console.log(record)}
+	    select:function(s,record,eOpts) {this.fireEvent('selectgroup',record);}
         }
         //baseCls:'my-dataview'
         //onItemDisclosure:true

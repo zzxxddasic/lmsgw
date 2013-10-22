@@ -195,6 +195,26 @@ exports.getLightInfo = function(req,res) {
         });
 }
 
+exports.getLigByGrp = function(req,res) {
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : '',
+    });
+
+    connection.query('use gatewaydb');
+
+    connection.query('select * from endpoint where groupname=?',[req.params.addr],
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.send(results);
+            res.end();
+            connection.end();
+        });
+}
+
 exports.getOperList = function(req,res) {
     var connection = mysql.createConnection({
         host : 'localhost',
