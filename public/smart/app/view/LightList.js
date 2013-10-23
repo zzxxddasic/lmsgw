@@ -62,7 +62,19 @@ Ext.define("sslsmart.view.LightList", {
 			    }
 		        this.lastSelect = selectId;
             },
-            itemtaphold:function() {console.log(this.lastSelect); },
+            itemtaphold:function(scope,index,target,record) {
+                var initvalue = scope.selectIcon.el.getHtml(); 
+                Ext.Msg.prompt('修改灯具名称','请输入灯名',
+                    function(button,value) {
+                        if (button=='ok' && value != '') {
+                            scope.selectIcon.setHtml(value);
+                            Ext.Ajax.request({
+                                url: '/upepname/' + record.data.net + '/' + record.data.ep + '/' + value,
+                                mothed: 'GET'
+                            });
+                        }
+                },this,false,initvalue)
+            },
             painted:function() {
                 this.getStore().load();
             }

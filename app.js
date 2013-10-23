@@ -37,6 +37,7 @@ app.get('/epidentify/:net/:ep',db.identifyLight);
 app.get('/groupinfo', db.getGroupInfo);
 app.get('/epinfo/:net', db.getEpInfo);
 app.get('/epinfo/:net/:ep', db.getLightInfo);
+app.get('/upepname/:net/:ep/:name', db.updateEpName);
 app.get('/ligbygrp/:addr', db.getLigByGrp);
 app.get('/toggle/:net/:ep', db.toggleLight);
 app.get('/lvlabs/:net/:ep/:lvl', db.levelLight);

@@ -335,3 +335,26 @@ exports.updateLightInfo = function(req,res) {
         });
 
 }
+exports.updateEpName = function(req,res) {
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : '',
+    });
+    
+    var net = req.params.net;
+    var ep = req.params.ep;
+    var name = req.params.name;
+    console.log(name);
+    connection.query('use gatewaydb');
+    connection.query('update endpoint set name=? where net=? and ep=?',
+        [name,net,ep],
+        function selectCb(err, results, fields) {
+            if (err) {
+                throw err;
+            }
+            res.end();
+            connection.end();
+        });
+
+}
