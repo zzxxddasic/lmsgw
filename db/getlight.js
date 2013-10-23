@@ -38,26 +38,38 @@ exports.toggleLight = function(req, res) {
     connection.query('use gatewaydb');
     connection.query('select onoff from endpoint where net=? and ep=?',[req.params.net,req.params.ep],
         function(err,results,fields) {
-            //console.log(results);
+            connection.end();
+            if (err) {
+                throw err;
+            }
             lightStatus.onoff = results[0].onoff;
-        });
-    var toggleLig = cp.spawn('./zbGateway',['-S2','-d/dev/ttyUSB0','-affffffffffffffff',
-        '-n' + req.params.net,'-p01' + req.params.ep]);
-    toggleLig.on('exit',
-        function(code) {
             if (lightStatus.onoff) {
                 res.end('0');
             }
             else {
                 res.end('1');
             }
+            //var toggleLig = cp.spawn('./zbGateway',['-S2','-d/dev/ttyUSB0','-affffffffffffffff',
+            //    '-n' + req.params.net,'-p01' + req.params.ep]);
+
+        //});
+    var toggleLig = cp.spawn('./zbGateway',['-S2','-d/dev/ttyUSB0','-affffffffffffffff',
+        '-n' + req.params.net,'-p01' + req.params.ep]);
+    toggleLig.on('exit',
+        function(code) {
+        //    if (lightStatus.onoff) {
+        //        res.end('0');
+        //    }
+        //    else {
+        //        res.end('1');
+        //    }
             //console.log(lightStatus.onoff);
         }
     );
+    });
 }
 
 exports.levelLight = function(req, res) {
-    console.log(req.params.net,req.params.ep,req.params.lvl);
     var lvlLig = cp.spawn('./zbGateway',['-L' + req.params.lvl,'-d/dev/ttyUSB0','-affffffffffffffff',
         '-n' + req.params.net,'-p01' + req.params.ep]);
     lvlLig.on('exit',
@@ -79,14 +91,14 @@ exports.saveLevel = function(req, res) {
     var ep = req.params.ep;
     var lvl = req.params.lvl;
     connection.query('use gatewaydb');
-    connection.query('update endpoint set level=? where net=? and ep=?',
+    connection.query('update endpoint set level=? ,onoff=1 where net=? and ep=?',
         [lvl,net,ep],
         function selectCb(err, results, fields) {
+            connection.end();
             if (err) {
                 throw err;
             }
             res.end();
-            connection.end();
         });
 }
 
@@ -103,10 +115,9 @@ exports.loadLevel = function(req, res) {
     connection.query('use gatewaydb');
     connection.query('select level from endpoint where net=? and ep=?',[net,ep],
     function selectCb(err, results, fields) {
-        console.log('load lighting level');
+        connection.end();
         res.send(results);
         res.end();
-        connection.end();
     })
 }
 
@@ -204,15 +215,28 @@ exports.getLigByGrp = function(req,res) {
 
     connection.query('use gatewaydb');
 
-    connection.query('select * from endpoint where groupname=?',[req.params.addr],
-        function selectCb(err, results, fields) {
-            if (err) {
-                throw err;
-            }
-            res.send(results);
-            res.end();
-            connection.end();
-        });
+    if (req.params.addr == '0') {
+        connection.query('select * from endpoint',[],
+            function selectCb(err, results, fields) {
+                if (err) {
+                    throw err;
+                }
+                res.send(results);
+                res.end();
+                connection.end();
+            });
+
+    } else {
+        connection.query('select * from endpoint where groupname=?',[req.params.addr],
+            function selectCb(err, results, fields) {
+                if (err) {
+                    throw err;
+                }
+                res.send(results);
+                res.end();
+                connection.end();
+            });
+    }
 }
 
 exports.getOperList = function(req,res) {

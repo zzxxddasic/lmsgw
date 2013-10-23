@@ -29,37 +29,35 @@ Ext.define("sslsmart.view.LightList", {
 		        //var selGrp = this.getParent().getParent().getParent().getComponent('right').getComponent('grpselect');
 		        //console.log(selGrp.getSelection());
 		        var selectId = 'div[id^=' + '"' + record.data.net + record.data.ep + '"' + ']';
-		        var selectIcon = this.element.select(selectId);
-		        //selectIcon.setStyle({backgroundColor:'#000'});
-		        selectIcon.setStyle({opacity:'1',color:'yellow',fontSize:'14px'});
+		        this.selectIcon = this.element.select(selectId);
+		        this.selectIcon.setStyle({opacity:'1',color:'yellow',fontSize:'14px'});
 
 		        //if((selectId in this.onOff) == false) { this.onOff[selectId]=1;}
 		        this.onOff[selectId] = record.data.onoff;
 		        if (this.onOff[selectId] == 0) {
-			        selectIcon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
+			        this.selectIcon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
 			    }
 		        else {
-			        selectIcon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
+			        this.selectIcon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
 			    }
 
 		        //console.log(this.onOff);
 		        var selectIdLast = this.lastSelect;
 		        //console.log(selectIdLast);
 		        if (selectId != selectIdLast) {
-		    		selectIcon = this.element.select(selectIdLast);
-		    		selectIcon.setStyle({opacity:'0.6',color:'#fff',fontSize:'12px'});
-			    }
-		        else {
-                    this.fireEvent('userOper',this,record,selectIcon);
+		    		this.lastSelectIcon = this.element.select(selectIdLast);
+		    		this.lastSelectIcon.setStyle({opacity:'0.6',color:'#fff',fontSize:'12px'});
+			    }  else {
+                    this.fireEvent('userOper',this,record,this.selectIcon);
 			        //console.log('Operate Lighting',this.onOff[selectId]);
 			        if (this.onOff[selectId] == 0) {
 				        this.onOff[selectId] = 1;
 
-		    		    selectIcon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
+		    		    this.selectIcon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
 				    }
 			        else {
 				        this.onOff[selectId] = 0;
-		    		    selectIcon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
+		    		    this.selectIcon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
 				    }
 			    }
 		        this.lastSelect = selectId;
