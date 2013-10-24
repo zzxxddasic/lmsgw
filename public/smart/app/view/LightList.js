@@ -51,12 +51,12 @@ Ext.define("sslsmart.view.LightList", {
                     this.fireEvent('userOper',this,record,this.selectIcon);
 			        //console.log('Operate Lighting',this.onOff[selectId]);
 			        if (this.onOff[selectId] == 0) {
-				        this.onOff[selectId] = 1;
+				        //this.onOff[selectId] = 1;
 
 		    		    this.selectIcon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
 				    }
 			        else {
-				        this.onOff[selectId] = 0;
+				        //this.onOff[selectId] = 0;
 		    		    this.selectIcon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
 				    }
 			    }

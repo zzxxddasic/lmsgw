@@ -24,20 +24,28 @@ Ext.define('sslsmart.controller.Oper',{
 
         operlight: function(scope,record,icon) {
             //console.log(record);
+            var action = '';
+            if (record.data.onoff == 1) {
+                action = '/off';
+                record.data.onoff = 0;
+            } else {
+                action = '/on';
+                record.data.onoff = 1;
+            }
+
             var togLig = Ext.Ajax.request({
-                url: '/toggle/' + record.data.net + '/' + record.data.ep,
+                url: '/sw/' + record.data.net + '/' + record.data.ep + action,
                 method: 'GET',
                 success: function(response,opts) {
-                    //console.log(response);
+                /*
                     if (response.responseText=='1') {
                         record.data.onoff = 1;
-		    		    //icon.setStyle({backgroundImage:'url(resources/images/lighton_50x50.png)'});
                     }
                     else {
                         record.data.onoff = 0;
-		    		    //icon.setStyle({backgroundImage:'url(resources/images/lightoff_50x50.png)'});
 
                     }
+                */
                 }
             });
             

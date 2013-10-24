@@ -40,6 +40,7 @@ app.get('/epinfo/:net/:ep', db.getLightInfo);
 app.get('/upepname/:net/:ep/:name', db.updateEpName);
 app.get('/ligbygrp/:addr', db.getLigByGrp);
 app.get('/toggle/:net/:ep', db.toggleLight);
+app.get('/sw/:net/:ep/:act', db.swLight);
 app.get('/lvlabs/:net/:ep/:lvl', db.levelLight);
 app.get('/savelvl/:net/:ep/:lvl', db.saveLevel);
 app.get('/loadlvl/:net/:ep', db.loadLevel);

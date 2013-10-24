@@ -57,16 +57,40 @@ exports.toggleLight = function(req, res) {
         '-n' + req.params.net,'-p01' + req.params.ep]);
     toggleLig.on('exit',
         function(code) {
-        //    if (lightStatus.onoff) {
-        //        res.end('0');
-        //    }
-        //    else {
-        //        res.end('1');
-        //    }
             //console.log(lightStatus.onoff);
         }
     );
     });
+}
+
+exports.swLight = function(req, res) {
+    var action = '-S0';
+    var query = '';
+    var connection = mysql.createConnection({
+        host : 'localhost',
+        user : 'root',
+        password : ''
+    });
+
+    connection.query('use gatewaydb');
+    if (req.params.act == 'on') {
+        action = '-S1';
+        query = 'update endpoint set onoff=1 where net=? and ep=?';
+    } else {
+        action = '-S0';
+        query = 'update endpoint set onoff=0 where net=? and ep=?';
+    }
+    connection.query(query,[req.params.net,req.params.ep],
+        function(err,results,fields) {
+            connection.end();
+            res.end();
+            if (err) {
+                throw err;
+            }
+            var toggleLig = cp.spawn('./zbGateway',[action,'-d/dev/ttyUSB0','-affffffffffffffff',
+                '-n' + req.params.net,'-p01' + req.params.ep]);
+            toggleLig.on('exit', function(code) { });
+        });
 }
 
 exports.levelLight = function(req, res) {
