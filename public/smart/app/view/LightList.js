@@ -6,6 +6,7 @@ Ext.define("sslsmart.view.LightList", {
     },
 	lastSelect:'div[id^="ffffff"]',
 	onOff:{},
+    hold: 0,
     config: {
         store: {
             fields: ['net','ep','name','onoff'],
@@ -26,6 +27,11 @@ Ext.define("sslsmart.view.LightList", {
             itemtap:function(scope,index,target,record) {
                 this.fireEvent('updateLevel',this,record);
                 this.selectedItem = record;
+                if (this.hold == 1) {
+                    this.hold = 0;
+                    return;
+                }
+                this.hold = 0;
 		        //var selGrp = this.getParent().getParent().getParent().getComponent('right').getComponent('grpselect');
 		        //console.log(selGrp.getSelection());
 		        var selectId = 'div[id^=' + '"' + record.data.net + record.data.ep + '"' + ']';
@@ -64,6 +70,7 @@ Ext.define("sslsmart.view.LightList", {
             },
             itemtaphold:function(scope,index,target,record) {
                 var initvalue = scope.selectIcon.el.getHtml(); 
+                this.hold = 1;
                 Ext.Msg.prompt('修改灯具名称','请输入灯名',
                     function(button,value) {
                         if (button=='ok' && value != '') {
